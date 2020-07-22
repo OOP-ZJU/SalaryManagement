@@ -5,8 +5,9 @@
 #include <QLabel>
 #include "kinds.h"
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 class MainWindow : public QMainWindow
 {

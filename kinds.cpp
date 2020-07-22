@@ -6,7 +6,6 @@ kinds::kinds(QWidget *parent) :
     ui(new Ui::kinds)
 {
     ui->setupUi(this);
-
 }
 
 kinds::~kinds()

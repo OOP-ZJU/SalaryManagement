@@ -19,16 +19,19 @@ SOURCES += \
     kinds.cpp \
     loginform.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    workerquery.cpp
 
 HEADERS += \
     kinds.h \
     loginform.h \
-    mainwindow.h
+    mainwindow.h \
+    workerquery.h
 
 FORMS += \
     kinds.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    workerquery.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
