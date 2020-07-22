@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include "kinds.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,10 +18,13 @@ public:
 signals:
 
 public slots:
+private slots:
+    void on_action_triggered();
+
 private:
     QLabel *tipLbl;  //"欢迎登录"标签
     Ui::MainWindow *ui;
-
+    kinds *dlgKinds;
     bool connectDatabase();
     void initTableView();
 };

@@ -38,6 +38,7 @@
     <property name="title">
      <string>工种</string>
     </property>
+    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -66,6 +67,11 @@
    <addaction name="menu_5"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>显示工种</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
