@@ -25,7 +25,7 @@ MainWindow::~MainWindow(){}
 
 /**
  * 连接数据库
- *
+ * 我用的是sql server，其他的在基础上改一改就行
  * @brief connect
  * @return
  */
@@ -48,7 +48,7 @@ bool MainWindow::connectDatabase()
 }
 /**
  * @brief MainWindow::initTableView
- *
+ * 从图书管理系统扒过来的，直接把数据库按列塞进去改名字就行
  */
 
 void MainWindow::initTableView() {
@@ -76,4 +76,10 @@ void MainWindow::initTableView() {
     // 表头
     QHeaderView *header = view->horizontalHeader();
     header->setStretchLastSection(true);
+}
+
+void MainWindow::on_action_triggered()
+{
+    dlgKinds = new kinds(this);
+    dlgKinds->exec();
 }
