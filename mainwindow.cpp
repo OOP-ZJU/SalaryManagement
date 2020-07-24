@@ -29,6 +29,7 @@ MainWindow::~MainWindow(){}
  * @brief connect
  * @return
  */
+
 bool MainWindow::connectDatabase()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");   //数据库驱动类型为SQL Server
