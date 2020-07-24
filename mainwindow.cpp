@@ -32,20 +32,15 @@ MainWindow::~MainWindow(){}
 
 bool MainWindow::connectDatabase()
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");   //数据库驱动类型为SQL Server
-    qDebug()<<"ODBC driver?"<<db.isValid();
-    QString dsn = QString::fromLocal8Bit("123");      //数据源名称
-    db.setHostName("localhost");                        //选择本地主机，127.0.1.1
-    db.setDatabaseName(dsn);                            //设置数据源名称
-    db.setUserName("sa");                               //登录用户
-    db.setPassword("123");                              //密码
-    if(!db.open())                                      //打开数据库
-    {
-        qDebug()<<db.lastError().text();
-        QMessageBox::critical(0, QObject::tr("Database error"), db.lastError().text());
-        return false;                                   //打开失败
-    }
-  return true;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(QApplication::applicationDirPath()+"/scooters.dat");    //如果本目录下没有该文件,则会在本目录下生成,否则连接该文件
+     if (!db.open()) {
+            QMessageBox::warning(0, QObject::tr("Database Error"),
+                                 db.lastError().text());
+            return false;
+     }
+
 }
 /**
  * @brief MainWindow::initTableView

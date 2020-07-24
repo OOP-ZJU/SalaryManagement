@@ -1,3 +1,4 @@
+
 #ifndef WORKERQUERY_H
 #define WORKERQUERY_H
 

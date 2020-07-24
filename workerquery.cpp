@@ -131,3 +131,4 @@ void workerQuery::on_btnQueryAllowance_clicked()
     }
     ui->tableView->setModel(model);
 }
+
