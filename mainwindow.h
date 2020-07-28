@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include "kinds.h"
+#include "databaseserver.h"
 
 namespace Ui
 {
@@ -26,6 +27,7 @@ private:
     QLabel *tipLbl;  //"欢迎登录"标签
     Ui::MainWindow *ui;
     kinds *dlgKinds;
+    DatabaseServer DBS;
     bool connectDatabase();
     void initTableView();
 };
