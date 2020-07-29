@@ -15,32 +15,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-
-    additionaldays.cpp \
+SOURCES += additionaldays.cpp \
     addpeople.cpp \
-
     databaseserver.cpp \
     kinds.cpp \
     loginform.cpp \
     main.cpp \
     mainwindow.cpp \
     modifypeople.cpp \
-    workdays.cpp \
-    workerquery.cpp
+    salaryofcompany.cpp \
+    salaryofdepartment.cpp \
+    workdays.cpp
 
-HEADERS += \
-
-    additionaldays.h \
+HEADERS += additionaldays.h \
     addpeople.h \
-
     databaseserver.h \
     kinds.h \
     loginform.h \
     mainwindow.h \
     modifypeople.h \
-    workdays.h \
-    workerquery.h
+    salaryofcompany.h \
+    salaryofdepartment.h \
+    workdays.h
 
 FORMS += \
     additionaldays.ui \
@@ -48,8 +44,9 @@ FORMS += \
     kinds.ui \
     mainwindow.ui \
     modifypeople.ui \
-    workdays.ui \
-    workerquery.ui
+    salaryofcompany.ui \
+    salaryofdepartment.ui \
+    workdays.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

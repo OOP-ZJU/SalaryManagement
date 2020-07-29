@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>kinds</class>
- <widget class="QDialog" name="kinds">
+ <class>Salaryofcompany</class>
+ <widget class="QDialog" name="Salaryofcompany">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>122</y>
-     <width>51</width>
-     <height>20</height>
+     <y>130</y>
+     <width>55</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
