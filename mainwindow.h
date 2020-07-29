@@ -10,6 +10,7 @@
 #include "workdays.h"
 #include "additionaldays.h"
 
+
 namespace Ui
 {
     class MainWindow;
@@ -50,6 +51,7 @@ private:
     modifyPeople *dlgModifyPeople;
     workDays *dlgWorkDays;
     additionalDays *dlgAdditionalDays;
+
     bool connectDatabase();
     void initTableView();
 };

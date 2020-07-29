@@ -87,6 +87,7 @@ void MainWindow::on_action_triggered()
     dlgKinds->exec();
 }
 
+
 void MainWindow::on_action_7_triggered()
 {
     dlgAddPeople = new addPeople(this);
@@ -201,7 +202,7 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
 
     // 刷新 tableView
     initTableView();
-    return true;
+    return true；
 }
 
 bool MainWindow::setWorkDays(const QString id, const QString days) {
@@ -245,3 +246,4 @@ bool MainWindow::setAdditionalDays(const QString id, const QString days) {
     initTableView();
     return true;
 }
+
