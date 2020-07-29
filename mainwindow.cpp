@@ -87,6 +87,12 @@ void MainWindow::on_action_triggered()
     dlgKinds->exec();
 }
 
+void MainWindow::on_action_2_triggered()
+{
+    dlgworkdays_show = new workdays_show(this);
+    dlgworkdays_show->exec();
+}
+
 void MainWindow::on_action_3_triggered()
 {
     dlgAdditionaldays_show = new Additionaldays_show(this);
@@ -272,8 +278,3 @@ bool MainWindow::setAdditionalDays(const QString id, const QString days) {
 
 
 
-void MainWindow::on_action_2_triggered()
-{
-    dlgworkdays_show = new workdays_show(this);
-    dlgworkdays_show->exec();
-}
