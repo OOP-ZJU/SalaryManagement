@@ -16,21 +16,35 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    additionaldays.cpp \
+    addpeople.cpp \
+    databaseserver.cpp \
     kinds.cpp \
     loginform.cpp \
     main.cpp \
     mainwindow.cpp \
+    modifypeople.cpp \
+    workdays.cpp \
     workerquery.cpp
 
 HEADERS += \
+    additionaldays.h \
+    addpeople.h \
+    databaseserver.h \
     kinds.h \
     loginform.h \
     mainwindow.h \
+    modifypeople.h \
+    workdays.h \
     workerquery.h
 
 FORMS += \
+    additionaldays.ui \
+    addpeople.ui \
     kinds.ui \
     mainwindow.ui \
+    modifypeople.ui \
+    workdays.ui \
     workerquery.ui
 
 # Default rules for deployment.
