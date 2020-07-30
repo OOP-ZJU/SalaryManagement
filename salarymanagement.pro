@@ -23,7 +23,9 @@ SOURCES += additionaldays.cpp \
     loginform.cpp \
     main.cpp \
     mainwindow.cpp \
+    model.cpp \
     modifypeople.cpp \
+    salarydetail.cpp \
     salaryofcompany.cpp \
     salaryofdepartment.cpp \
     searchpeople.cpp \
@@ -37,7 +39,9 @@ HEADERS += additionaldays.h \
     kinds.h \
     loginform.h \
     mainwindow.h \
+    model.h \
     modifypeople.h \
+    salarydetail.h \
     salaryofcompany.h \
     salaryofdepartment.h \
     searchpeople.h \
