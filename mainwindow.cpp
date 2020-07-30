@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "salarydetail.h"
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QMessageBox>
@@ -10,7 +10,7 @@
 #include <QTableView>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent),model(NULL),
     ui(new Ui::MainWindow)
 {
     model = NULL;
@@ -86,14 +86,54 @@ void MainWindow::initTableView() {
     // 表头
     QHeaderView *header = view->horizontalHeader();
     header->setStretchLastSection(true);
+   connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
+void MainWindow::on_table_clicked(const QModelIndex &index){
+    int row=index.row();
 
+    auto record=model->record(row);
+    salarydetail *detailwindow=new salarydetail(record,NULL);
+
+    detailwindow->show();
+    //this->setWindowTitle(QString::number(index.row()));
+}
 void MainWindow::on_action_triggered()
 {
     dlgKinds = new kinds(this);
     dlgKinds->exec();
 }
 
+void MainWindow::on_action_2_triggered()
+{
+    dlgworkdays_show = new workdays_show(this);
+    dlgworkdays_show->exec();
+}
+
+void MainWindow::on_action_3_triggered()
+{
+    dlgAdditionaldays_show = new Additionaldays_show(this);
+    dlgAdditionaldays_show->exec();
+}
+
+void MainWindow::on_action_4_triggered()
+{
+    dlgSearchPeople = new searchPeople(this);
+    connect(dlgSearchPeople,&searchPeople::searchpeople,this,&MainWindow::search);
+    dlgSearchPeople->exec();
+}
+
+
+void MainWindow::on_action_5_triggered()
+{
+    dlgSalaryofdepartment = new Salaryofdepartment(this);
+    dlgSalaryofdepartment->exec();
+}
+
+void MainWindow::on_action_6_triggered()
+{
+    dlgSlaryofcompany =new Salaryofcompany(this);
+    dlgSlaryofcompany->exec();
+}
 
 void MainWindow::on_action_7_triggered()
 {
@@ -140,6 +180,7 @@ void MainWindow::on_action_12_triggered()
     dlgAdditionalDays->exec();
 }
 
+<<<<<<< HEAD
 bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary)
 {
     QSqlQuery query;
@@ -312,4 +353,23 @@ void MainWindow::on_action_6_triggered()
         qDebug() << query.value(0).toString();
         QMessageBox::information(this,tr("Info"),"total salary: " + query.value(0).toString(),QMessageBox::Yes);
     }
+bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job) {
+    // 这里写插入sql语句
+    //QSqlQuery query;
+    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
+    //qDebug() << sql;
+
+    //"1"填执行成功条件
+    if(1){
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
+      }else{
+        // 执行失败
+        QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
+        // qDebug() << query.lastError().text();
+      }
+
+    // 刷新 tableView
+    initTableView();
+    return true;
 }

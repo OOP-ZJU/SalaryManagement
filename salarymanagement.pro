@@ -15,37 +15,61 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+<<<<<<< HEAD
 SOURCES += \
     additionaldays.cpp \
+=======
+SOURCES += additionaldays.cpp \
+    additionaldays_show.cpp \
+>>>>>>> 8d234259d5385199f79f15a980179cc4adf063c0
     addpeople.cpp \
     databaseserver.cpp \
     kinds.cpp \
     loginform.cpp \
     main.cpp \
     mainwindow.cpp \
+    model.cpp \
     modifypeople.cpp \
+    salarydetail.cpp \
+    salaryofcompany.cpp \
+    salaryofdepartment.cpp \
+    searchpeople.cpp \
     workdays.cpp \
-    workerquery.cpp
+    workdays_show.cpp
 
+<<<<<<< HEAD
 HEADERS += \
     additionaldays.h \
+=======
+HEADERS += additionaldays.h \
+    additionaldays_show.h \
+>>>>>>> 8d234259d5385199f79f15a980179cc4adf063c0
     addpeople.h \
     databaseserver.h \
     kinds.h \
     loginform.h \
     mainwindow.h \
+    model.h \
     modifypeople.h \
+    salarydetail.h \
+    salaryofcompany.h \
+    salaryofdepartment.h \
+    searchpeople.h \
     workdays.h \
-    workerquery.h
+    workdays_show.h
 
 FORMS += \
     additionaldays.ui \
+    additionaldays_show.ui \
     addpeople.ui \
     kinds.ui \
     mainwindow.ui \
     modifypeople.ui \
+    salaryofcompany.ui \
+    salaryofdepartment.ui \
+    searchpeople.ui \
     workdays.ui \
-    workerquery.ui
+    workdays_show.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

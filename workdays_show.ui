@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>kinds</class>
- <widget class="QDialog" name="kinds">
+ <class>workdays_show</class>
+ <widget class="QDialog" name="workdays_show">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,10 +16,10 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>122</y>
-     <width>51</width>
-     <height>20</height>
+     <x>150</x>
+     <y>140</y>
+     <width>55</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">

@@ -6,6 +6,7 @@ kinds::kinds(QWidget *parent) :
     ui(new Ui::kinds)
 {
     ui->setupUi(this);
+    this->setWindowTitle(tr("显示工种"));
 }
 
 kinds::~kinds()
