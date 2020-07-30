@@ -34,16 +34,6 @@ float sales::get_net_salary_total(){
     return  after_tax(wage+bonus+sales_compensation);
 }
 
-// void employee::print_salary_detail(QTableWidget &display){
-//     for(int i=0;i<2;i++)
-//         for(int j=0;j<4;j++){
-//             if(display.item(j,i))
-//             display.item(j,i)->setData(0,i);
-//             else display.setItem(j,i,new QTableWidgetItem(QString::number(j)));
-//         }
-// }
-
-
 employee::employee(QSqlRecord &record)
     :sex(record.value("sex").toUInt()),name(record.value("name").toString()),dept(record.value("department").toString()),phone(record.value("phone number").toString()),wage(record.value("salary").toFloat()){
 

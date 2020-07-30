@@ -22,8 +22,8 @@ salarydetail::salarydetail(QSqlRecord& record,MainWindow *parent) :
     ft.setPointSize(12);
 
     detail=new QTableWidget(this);
-    detail->setRowCount(7);
-    detail->resize(252,150);
+    detail->resize(252,188);
+    detail->setRowCount(5);
     detail->setColumnCount(2);
     detail->verticalHeader()->setVisible(false);
     detail->horizontalHeader()->setVisible(false);
