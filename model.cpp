@@ -31,59 +31,71 @@ float sales::get_net_salary_total(){
     return  after_tax(wage+bonus+sales_compensation);
 }
 
-// void employee::print_salary_detail(QTableWidget &display){
-//     for(int i=0;i<2;i++)
-//         for(int j=0;j<4;j++){
-//             if(display.item(j,i))
-//             display.item(j,i)->setData(0,i);
-//             else display.setItem(j,i,new QTableWidgetItem(QString::number(j)));
-//         }
-// }
-
-
 employee::employee(QSqlRecord &record)
     :sex(record.value("sex").toUInt()),name(record.value("name").toString()),dept(record.value("department").toString()),phone(record.value("phone number").toString()),wage(record.value("salary").toFloat()){
 
 }
-void management::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","motivation","total"};
+void management::print_salary_detail(QTableWidget &display)
+{
+    QString tmp[]={"name","wage","bonus","motivation","total(after tax)"};
+
     float w[]={wage,bonus,motivation,get_net_salary_total()};
-    for(int j=0;j<4;j++){
+    if(auto p=display.item(0,0))p->setData(0,tmp[0]);
+        else display.setItem(0,0,new QTableWidgetItem(tmp[0]));
+    if(auto p=display.item(0,1))p->setData(0,name);
+        else display.setItem(0,1,new QTableWidgetItem(name));
+    for(int j=1;j<5;j++)
+    {
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
-        if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+        if(auto p=display.item(j,1))p->setData(0,w[j-1]);
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j-1])));
     }
 }
 void tech::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","skill","project_budget","total"};
+    QString tmp[]={"name","wage","bonus","skill","project_budget","total(after tax)"};
     float w[]={wage,bonus,skill,project_budget,get_net_salary_total()};
-    for(int j=0;j<5;j++){
+    if(auto p=display.item(0,0))p->setData(0,tmp[0]);
+        else display.setItem(0,0,new QTableWidgetItem(tmp[0]));
+    if(auto p=display.item(0,1))p->setData(0,name);
+        else display.setItem(0,1,new QTableWidgetItem(name));
+    for(int j=1;j<5;j++)
+    {
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
-        if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+        if(auto p=display.item(j,1))p->setData(0,w[j-1]);
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j-1])));
     }
 
 }
 void sales::print_salary_detail(QTableWidget &display){    
-    QString tmp[]={"wage","bonus","sales_compensation","total"};
+    QString tmp[]={"name","wage","bonus","sales_compensation","total(after tax)"};
     float w[]={wage,bonus,sales_compensation,get_net_salary_total()};
-    for(int j=0;j<4;j++){
+    if(auto p=display.item(0,0))p->setData(0,tmp[0]);
+        else display.setItem(0,0,new QTableWidgetItem(tmp[0]));
+    if(auto p=display.item(0,1))p->setData(0,name);
+        else display.setItem(0,1,new QTableWidgetItem(name));
+    for(int j=1;j<5;j++)
+    {
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
-        if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+        if(auto p=display.item(j,1))p->setData(0,w[j-1]);
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j-1])));
     }
 }
 void worker::print_salary_detail(QTableWidget &display){  
-    QString tmp[]={"wage","overtime","bonus","total"};
+    QString tmp[]={"name","wage","overtime","bonus","total(after tax)"};
     float w[]={wage,overtime,bonus,get_net_salary_total()};
-    for(int j=0;j<4;j++){
+    if(auto p=display.item(0,0))p->setData(0,tmp[0]);
+        else display.setItem(0,0,new QTableWidgetItem(tmp[0]));
+    if(auto p=display.item(0,1))p->setData(0,name);
+        else display.setItem(0,1,new QTableWidgetItem(name));
+    for(int j=1;j<5;j++)
+    {
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
-        if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+        if(auto p=display.item(j,1))p->setData(0,w[j-1]);
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j-1])));
     }
 }
 
