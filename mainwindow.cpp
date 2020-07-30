@@ -298,7 +298,7 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
     return true;
 }
 
-bool MainWindow::setAdditionalDays(const QString days, const QString id)
+bool MainWindow::setWorkDays(const QString days, const QString id)
 {
     // 这里写插入sql语句
     //QSqlQuery query;
@@ -403,25 +403,19 @@ bool MainWindow::search(const QString name, const QString id, const QString phon
     else
         model->setFilter(filter);
     qDebug() << model->filter();
-    qDebug() << model->rowCount();
 
     // 刷新 tableView
-    if(!model->select())
+    if(model->select())
+    {
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("select Success"),QMessageBox::Yes);
+    }
+    else
     {
         // 执行失败
         QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
         qDebug() << model->lastError().text();
         return false;
-    }
-    else if(0 == model->rowCount())
-    {
-        QMessageBox::information(this,tr("Info"),tr("Content is null"),QMessageBox::Yes);
-        return false;
-    }
-    else
-    {
-        // 执行成功
-        QMessageBox::information(this,tr("Info"),tr("Select Success"),QMessageBox::Yes);
     }
     return true;
 }
