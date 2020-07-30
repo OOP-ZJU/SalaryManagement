@@ -1,6 +1,7 @@
 #include "model.h"
 using namespace std;
-inline float after_tax(float salary){
+inline float after_tax(float salary)
+{
     float tax;
     if(salary<36000)
         tax=salary*0.03f;
@@ -29,6 +30,7 @@ float tech::get_net_salary_total(){
 float sales::get_net_salary_total(){
     return  after_tax(wage+bonus+sales_compensation);
 }
+
 // void employee::print_salary_detail(QTableWidget &display){
 //     for(int i=0;i<2;i++)
 //         for(int j=0;j<4;j++){
