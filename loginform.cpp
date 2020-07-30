@@ -6,11 +6,15 @@ LoginForm::LoginForm(QDialog *parent) :
 {
     //设置窗体标题
     this->setWindowTitle(tr("登录界面"));
+    //设置字体大小
+    //QFont ft;
+    //ft.setPointSize(12);
 
     //用户名Label
     userNameLbl = new QLabel(this);   //new一个标签对象
     userNameLbl->move(70,80);         //移动到(70,80)位置(Label左上角坐标，相对于父窗体)
     userNameLbl->setText("用户名:");  //设置标签文本
+    //userNameLbl->setFont(ft);
 
     //用户名输入框
     userNameLEd = new QLineEdit(this);
