@@ -39,7 +39,7 @@ employee::employee(QSqlRecord &record)
 
 }
 void management::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","motivation","total"};
+    QString tmp[]={"基准工资","绩效工资","激励工资","税后总工资"};
     float w[]={wage,bonus,motivation,taxed=get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
@@ -49,7 +49,7 @@ void management::print_salary_detail(QTableWidget &display){
     }
 }
 void tech::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","skill","project_budget","total"};
+    QString tmp[]={"基准工资","绩效工资","技术工资","项目工资","税后总工资"};
     float w[]={wage,bonus,skill,project_budget,taxed=get_net_salary_total()};
     for(int j=0;j<5;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
@@ -60,7 +60,7 @@ void tech::print_salary_detail(QTableWidget &display){
 
 }
 void sales::print_salary_detail(QTableWidget &display){    
-    QString tmp[]={"wage","bonus","sales_compensation","total"};
+    QString tmp[]={"基准工资","绩效工资","销售提成","税后总工资"};
     float w[]={wage,bonus,sales_compensation,taxed=get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
@@ -70,7 +70,7 @@ void sales::print_salary_detail(QTableWidget &display){
     }
 }
 void worker::print_salary_detail(QTableWidget &display){  
-    QString tmp[]={"wage","bonus","overtime","total"};
+    QString tmp[]={"基准工资","绩效工资","加班工资","税后总工资"};
     float w[]={wage,bonus,overtime,taxed=get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
