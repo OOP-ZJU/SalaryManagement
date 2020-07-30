@@ -156,4 +156,12 @@ void DatabaseServer::setSalaryTaxed(const QString id, const QString salaryTaxed)
         qDebug() << query.lastError();
         return;
     }
+    sql = QObject::tr("update information set salary = %1 where id = '%2'")
+                       .arg(salaryTaxed)
+                       .arg(id,10,QLatin1Char('0'));
+       if(!query.exec(sql))
+       {
+           qDebug() << query.lastError();
+           return;
+       }
 }
