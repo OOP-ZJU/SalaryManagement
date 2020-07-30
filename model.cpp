@@ -35,7 +35,7 @@ float sales::get_net_salary_total(){
 }
 
 employee::employee(QSqlRecord &record)
-    :sex(record.value("sex").toUInt()),name(record.value("name").toString()),dept(record.value("department").toString()),phone(record.value("phone number").toString()),wage(record.value("salary").toFloat()){
+    :id(record.value("id").toString()),sex(static_cast<char>(record.value("sex").toInt())),name(record.value("name").toString()),dept(record.value("department").toString()),phone(record.value("phone_number").toString()),wage(record.value("salary").toFloat()){
 
 }
 void management::print_salary_detail(QTableWidget &display){

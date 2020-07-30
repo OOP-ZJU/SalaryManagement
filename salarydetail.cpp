@@ -39,8 +39,8 @@ salarydetail::salarydetail(QSqlRecord& record,MainWindow *parent) :
         if(job=="Worker")dynamic_cast<worker*>(emp1)->overtime=ot;
         emp1->bonus=count_bonus(days,emp1->wage);
         emp1->print_salary_detail(*detail);
-        DatabaseServer::setSalaryTaxed(emp1->id,QString::number(emp1->taxed,'f',2));
-        parent->model->select();
+        //DatabaseServer::setSalaryTaxed(emp1->id,QString::number(emp1->taxed,'f',2));
+        //parent->model->select();
     }
 
 

@@ -305,7 +305,7 @@ bool MainWindow::setWorkDays(const QString id, const QString days)
     return true;
 }
 
-bool MainWindow::setAdditionalDays(const QString id, const QString days)
+bool MainWindow::setAdditionalDays(const QString days, const QString id)
 {
     QSqlQuery query;
     QString sql = tr("update salary set extra_work = %1 where id = '%2'")
