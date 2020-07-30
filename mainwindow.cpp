@@ -381,19 +381,25 @@ bool MainWindow::search(const QString name, const QString id, const QString phon
     else
         model->setFilter(filter);
     qDebug() << model->filter();
+    qDebug() << model->rowCount();
 
     // 刷新 tableView
-    if(model->select())
-    {
-        // 执行成功
-        QMessageBox::information(this,tr("Info"),tr("select Success"),QMessageBox::Yes);
-    }
-    else
+    if(!model->select())
     {
         // 执行失败
         QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
         qDebug() << model->lastError().text();
         return false;
+    }
+    else if(0 == model->rowCount())
+    {
+        QMessageBox::information(this,tr("Info"),tr("Content is null"),QMessageBox::Yes);
+        return false;
+    }
+    else
+    {
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("Select Success"),QMessageBox::Yes);
     }
     return true;
 }
