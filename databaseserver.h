@@ -13,8 +13,7 @@ public:
     void createDB();
     static QString getExtraWork(const QString id);
     static QString getAttendance(const QString id);
-    static void setExtraWork(const QString id, const QString days);
-    static void setAttendance(const QString id, const QString days);
+    static void setSalaryTaxed(const QString id, const QString salaryTaxed);
 private:
     QSqlDatabase database;
 };
