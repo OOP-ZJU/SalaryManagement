@@ -8,36 +8,43 @@ salarydetail::salarydetail(QSqlRecord& record,QDialog *parent) :
     worker emp1(record);
     //设置窗体标题
     this->setWindowTitle(tr("工资明细"));
+    this->resize(QSize(360,500));
+
+    //设置字体大小
+    QFont ft;
+    ft.setPointSize(12);
 
     //用户名Label
     userNameLbl = new QLabel(this);   //new一个标签对象
-    userNameLbl->move(70,80);         //移动到(70,80)位置(Label左上角坐标，相对于父窗体)
+    userNameLbl->move(70,40);         //移动到(70,80)位置(Label左上角坐标，相对于父窗体)
+    userNameLbl->setFont(ft);         //设置字体大小为12号
     userNameLbl->setText("用户名:");  //设置标签文本
 
     //用户名输入框
     userNameLEd = new QLineEdit(this);
-    userNameLEd->move(120,80);
+    userNameLEd->move(150,40);
     userNameLEd->setPlaceholderText(record.value(0).toString());//占位符
 
     //密码Label
     pwdLbl = new QLabel(this);
-    pwdLbl->move(80,130);
-    pwdLbl->setText("salary:");
+    pwdLbl->move(50,80);
+    pwdLbl->setFont(ft);
+    pwdLbl->setText("Password:");
 
     //密码输入框
     pwdLEd = new QLineEdit(this);
-    pwdLEd->move(120,130);
+    pwdLEd->move(150,80);
     pwdLEd->setPlaceholderText(record.value("salary").toString());
     pwdLEd->setEchoMode(QLineEdit::Password);//输入的密码以圆点显示
 
     //登录按钮
     loginBtn = new QPushButton(this);
-    loginBtn->move(80,200);
+    loginBtn->move(90,140);
     loginBtn->setText("登录");
 
     //退出按钮
     exitBtn = new QPushButton(this);
-    exitBtn->move(170,200);
+    exitBtn->move(180,140);
     exitBtn->setText("退出");
 
     detail=new QTableWidget(this);
@@ -45,7 +52,7 @@ salarydetail::salarydetail(QSqlRecord& record,QDialog *parent) :
     detail->setColumnCount(2);
     detail->verticalHeader()->setVisible(false);
     detail->horizontalHeader()->setVisible(false);
-    detail->move(60,240);
+    detail->move(60,180);
 
     //单击登录按钮时 执行 salarydetail::login 槽函数(自定义)；单击退出按钮时 执行 salarydetail::close 槽函数(窗体的关闭函数，不用自己写)
     connect(loginBtn,&QPushButton::clicked,this,&salarydetail::login);

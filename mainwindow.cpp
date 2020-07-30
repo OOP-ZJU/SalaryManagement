@@ -87,9 +87,11 @@ void MainWindow::initTableView() {
     header->setStretchLastSection(true);
    connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
-void MainWindow::on_table_clicked(const QModelIndex &index){
+void MainWindow::on_table_clicked(const QModelIndex &index)
+{
     int row=index.row();
 
+    //auto record=model->record(row);
     auto record=model->record(row);
     salarydetail *detailwindow=new salarydetail(record,NULL);
 
