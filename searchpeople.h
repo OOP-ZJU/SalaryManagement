@@ -15,6 +15,10 @@ public:
     explicit searchPeople(QWidget *parent = nullptr);
     ~searchPeople();
 
+    void accept();
+signals:
+    void searchpeople(const QString name,const QString id, const QString phonenum, const QString department, const QString job);
+
 private:
     Ui::searchPeople *ui;
 };

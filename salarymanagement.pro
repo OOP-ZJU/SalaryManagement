@@ -26,6 +26,7 @@ SOURCES += additionaldays.cpp \
     modifypeople.cpp \
     salaryofcompany.cpp \
     salaryofdepartment.cpp \
+    searchpeople.cpp \
     workdays.cpp \
     workdays_show.cpp
 
@@ -39,6 +40,7 @@ HEADERS += additionaldays.h \
     modifypeople.h \
     salaryofcompany.h \
     salaryofdepartment.h \
+    searchpeople.h \
     workdays.h \
     workdays_show.h
 
@@ -51,6 +53,7 @@ FORMS += \
     modifypeople.ui \
     salaryofcompany.ui \
     salaryofdepartment.ui \
+    searchpeople.ui \
     workdays.ui \
     workdays_show.ui
 
