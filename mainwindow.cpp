@@ -92,7 +92,7 @@ void MainWindow::on_table_clicked(const QModelIndex &index){
     int row=index.row();
 
     auto record=model->record(row);
-    salarydetail *detailwindow=new salarydetail(record,NULL);
+    salarydetail *detailwindow=new salarydetail(record,this);
 
     detailwindow->show();
     //this->setWindowTitle(QString::number(index.row()));

@@ -11,8 +11,8 @@ public:
     bool connectDB();
     void initDB();
     void createDB();
-    static QString getExtraWork(const QString id);
-    static QString getAttendance(const QString id);
+    static int getExtraWork(const QString id);
+    static int getAttendance(const QString id);
     static void setSalaryTaxed(const QString id, const QString salaryTaxed);
 private:
     QSqlDatabase database;
