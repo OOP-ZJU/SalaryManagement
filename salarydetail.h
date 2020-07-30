@@ -17,9 +17,8 @@ signals:
 
 
 private:
-    QPushButton *loginBtn;       //确定按钮
-    QPushButton *exitBtn;        //退出按钮
     QTableWidget *detail;
+    //窗体指针
 };
 
 #endif 
