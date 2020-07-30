@@ -176,6 +176,11 @@ void MainWindow::on_action_12_triggered()
 
 bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary)
 {
+    if(!(job == "Worker" || job == "Manager" || job == "Sales" || job == "Tech"))
+    {
+        QMessageBox::information(this,tr("Info"),tr("Invalid job"),QMessageBox::Yes);
+        return false;
+    }
     QSqlQuery query;
     //"insert into information values('0000000001','Ylc','M','1111','Sci','Manager',11.22)"
     QString sql = tr("insert into information values('%1','%2','%3','%4','%5','%6',%7)")
@@ -247,10 +252,12 @@ bool MainWindow::deletePeople(const QString id)
 
 bool MainWindow::changePeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job)
 {
+    if(!(job == "Worker" || job == "Manager" || job == "Sales" || job == "Tech"))
+    {
+        QMessageBox::information(this,tr("Info"),tr("Invalid job"),QMessageBox::Yes);
+        return false;
+    }
     QSqlQuery query;
-//    QString sql = tr("update information set name = '%1', sex = '%2', phone_number = '%3', department = '%4', job = '%5' where id = '%6'")
-//                    .arg(name).arg(sex).arg(phonenum).arg(department).arg(job)
-//                    .arg(id,10,QLatin1Char('0'));
     QString sql("update information");
     bool isSet = false;
     if(!name.isEmpty())
