@@ -51,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>830</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -84,7 +84,6 @@
     <property name="title">
      <string>总工资</string>
     </property>
-    <addaction name="action_5"/>
     <addaction name="separator"/>
     <addaction name="action_6"/>
    </widget>

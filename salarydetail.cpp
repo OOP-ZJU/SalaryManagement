@@ -3,9 +3,11 @@
 #include <QHeaderView>
 #include "model.h"
 #include "databaseserver.h"
+#include <QLayout>
 salarydetail::salarydetail(QSqlRecord& record,MainWindow *parent) :
     QDialog(parent)
 {
+
     employee* emp1=NULL;
     auto job=record.value("job").toString();
     if(job=="Manager")emp1=new management(record);
@@ -29,7 +31,9 @@ salarydetail::salarydetail(QSqlRecord& record,MainWindow *parent) :
     detail->horizontalHeader()->setVisible(false);
     detail->horizontalHeader()->setStretchLastSection(true);
     detail->verticalHeader()->setStretchLastSection(true);
-    detail->move(70,30);
+    setLayout(new QGridLayout(this));
+    layout()->setMargin(12);
+    layout()->addWidget(detail);
     if(emp1){
 
 
