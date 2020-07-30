@@ -15,15 +15,12 @@ salarydetail::salarydetail(QSqlRecord& record,QDialog *parent) :
     ft.setPointSize(12);
 
     detail=new QTableWidget(this);
-    detail->resize(252,150);
-    detail->setRowCount(4);
+    detail->resize(252,188);
+    detail->setRowCount(5);
     detail->setColumnCount(2);
     detail->verticalHeader()->setVisible(false);
     detail->horizontalHeader()->setVisible(false);
     detail->move(70,30);
-
-
-
     emp1.print_salary_detail(*detail);
 
 }
