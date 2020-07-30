@@ -276,7 +276,7 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
     return true;
 }
 
-bool MainWindow::setWorkDays(const QString id, const QString days)
+bool MainWindow::setWorkDays(const QString days, const QString id)
 {
     // 这里写插入sql语句
     //QSqlQuery query;
