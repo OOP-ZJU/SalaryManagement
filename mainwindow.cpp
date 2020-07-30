@@ -129,12 +129,6 @@ void MainWindow::on_action_5_triggered()
     dlgSalaryofdepartment->exec();
 }
 
-void MainWindow::on_action_6_triggered()
-{
-    dlgSlaryofcompany =new Salaryofcompany(this);
-    dlgSlaryofcompany->exec();
-}
-
 void MainWindow::on_action_7_triggered()
 {
     dlgAddPeople = new addPeople(this);
@@ -180,7 +174,6 @@ void MainWindow::on_action_12_triggered()
     dlgAdditionalDays->exec();
 }
 
-<<<<<<< HEAD
 bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary)
 {
     QSqlQuery query;
@@ -353,6 +346,7 @@ void MainWindow::on_action_6_triggered()
         qDebug() << query.value(0).toString();
         QMessageBox::information(this,tr("Info"),"total salary: " + query.value(0).toString(),QMessageBox::Yes);
     }
+}
 bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job) {
     // 这里写插入sql语句
     //QSqlQuery query;
