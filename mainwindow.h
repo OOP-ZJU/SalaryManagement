@@ -30,6 +30,7 @@ public:
     bool setWorkDays(const QString id,const QString days);
     bool changePeople(const QString name,const QString id, const QString sex, const QString phonenum, const QString department, const QString job);
     bool insertPeople(const QString name,const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary);
+    bool deletePeople(const QString id);
     bool setAdditionalDays(const QString id,const QString days);
     bool search(const QString name,const QString id, const QString phonenum, const QString department, const QString job);
 signals:
@@ -75,6 +76,9 @@ private:
 
     bool connectDatabase();
     void initTableView();
+    void on_table_clicked(const QModelIndex &index);
+    QSqlTableModel *model;
+
 };
 
 #endif // MAINFORM_H

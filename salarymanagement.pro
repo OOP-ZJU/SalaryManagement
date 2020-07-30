@@ -1,4 +1,4 @@
-QT       += core gui
+QT += core gui
 QT += sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,13 +23,14 @@ SOURCES += additionaldays.cpp \
     loginform.cpp \
     main.cpp \
     mainwindow.cpp \
+    model.cpp \
     modifypeople.cpp \
+    salarydetail.cpp \
     salaryofcompany.cpp \
     salaryofdepartment.cpp \
     searchpeople.cpp \
     workdays.cpp \
     workdays_show.cpp
-
 HEADERS += additionaldays.h \
     additionaldays_show.h \
     addpeople.h \
@@ -37,15 +38,16 @@ HEADERS += additionaldays.h \
     kinds.h \
     loginform.h \
     mainwindow.h \
+    model.h \
     modifypeople.h \
+    salarydetail.h \
     salaryofcompany.h \
     salaryofdepartment.h \
     searchpeople.h \
     workdays.h \
     workdays_show.h
 
-FORMS += \
-    additionaldays.ui \
+FORMS += additionaldays.ui \
     additionaldays_show.ui \
     addpeople.ui \
     kinds.ui \

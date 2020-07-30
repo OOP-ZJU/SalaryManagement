@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "salarydetail.h"
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QMessageBox>
@@ -10,22 +10,27 @@
 #include <QTableView>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent),model(NULL),
     ui(new Ui::MainWindow)
 {
-
     ui->setupUi(this);
-    if(DBS.connectDB()){
+    if(DBS.connectDB())
+    {
         DBS.createDB();
         DBS.initDB();
         // 初始化 tableView
         initTableView();
-      }
+    }
+
 //    setWindowFlags(windowFlags()& ~Qt::WindowMaximizeButtonHint);
 //    setFixedSize(this->width(), this->height());
 }
 
-MainWindow::~MainWindow(){}
+MainWindow::~MainWindow()
+{
+    if(NULL != model)
+        delete model;
+}
 
 /**
  * 连接数据库
@@ -53,7 +58,8 @@ bool MainWindow::connectDatabase()
 
 void MainWindow::initTableView() {
     // 数据模型
-    QSqlTableModel *model = new QSqlTableModel;
+    if(NULL == model)
+        model = new QSqlTableModel;
     model->setTable("information");
     // 按编号排序
     model->setSort(0, Qt::AscendingOrder);
@@ -79,8 +85,17 @@ void MainWindow::initTableView() {
     // 表头
     QHeaderView *header = view->horizontalHeader();
     header->setStretchLastSection(true);
+   connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
+void MainWindow::on_table_clicked(const QModelIndex &index){
+    int row=index.row();
 
+    auto record=model->record(row);
+    salarydetail *detailwindow=new salarydetail(record,NULL);
+
+    detailwindow->show();
+    //this->setWindowTitle(QString::number(index.row()));
+}
 void MainWindow::on_action_triggered()
 {
     dlgKinds = new kinds(this);
@@ -113,12 +128,6 @@ void MainWindow::on_action_5_triggered()
     dlgSalaryofdepartment->exec();
 }
 
-void MainWindow::on_action_6_triggered()
-{
-    dlgSlaryofcompany =new Salaryofcompany(this);
-    dlgSlaryofcompany->exec();
-}
-
 void MainWindow::on_action_7_triggered()
 {
     dlgAddPeople = new addPeople(this);
@@ -129,7 +138,7 @@ void MainWindow::on_action_7_triggered()
 void MainWindow::on_action_8_triggered()
 {
     int row= ui->tableView->currentIndex().row();
-    QAbstractItemModel *model = ui->tableView->model ();
+    QAbstractItemModel *model = ui->tableView->model();
     QModelIndex idIndex = model->index(row,0);
     QModelIndex nameIndex = model->index(row,1);
     QVariant idData = model->data(idIndex);
@@ -137,9 +146,10 @@ void MainWindow::on_action_8_triggered()
     if(QMessageBox::question(this,
                              tr("Info"),
                              tr("Are you sure to delete ")+nameData.toString()+" ?",
-                             QMessageBox::Yes | QMessageBox::No)==QMessageBox::Yes){
-         /*deleteBook(idData.toString());*/ /*此处为在数据库删除员工信息函数，之前已经选中了删除的信息行数*/
-      }
+                             QMessageBox::Yes | QMessageBox::No)==QMessageBox::Yes)
+    {
+        deletePeople(idData.toString()); /*此处为在数据库删除员工信息函数，之前已经选中了删除的信息行数*/
+    }
 }
 
 void MainWindow::on_action_9_triggered()
@@ -163,122 +173,179 @@ void MainWindow::on_action_12_triggered()
     dlgAdditionalDays->exec();
 }
 
+bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary)
+{
+    QSqlQuery query;
+    //"insert into information values('0000000001','Ylc','M','1111','Sci','Manager',11.22)"
+    QString sql = tr("insert into information values('%1','%2','%3','%4','%5','%6',%7)")
+                    .arg(id,10,QLatin1Char('0'))
+                    .arg(name).arg(sex).arg(phonenum)
+                    .arg(department).arg(job).arg(salary);
 
-bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary) {
-
-    // 这里写插入sql语句
-    //QSqlQuery query;
-    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
-    //qDebug() << sql;
-
-    //"1"填执行成功条件
-    if(1){
+    if(query.exec(sql))
+    {
         // 执行成功
         QMessageBox::information(this,tr("Info"),tr("Insert Success"),QMessageBox::Yes);
-      }else{
+    }
+    else
+    {
         // 执行失败
         QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
-        // qDebug() << query.lastError().text();
-      }
+        qDebug() << query.lastError().text();
+        return false;
+    }
 
+    sql = tr("insert into salary values('%1','%2',%3,0,0)")
+            .arg(id,10,QLatin1Char('0'))
+            .arg(name).arg(salary);
+    if(!query.exec(sql))
+    {
+        QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
+        qDebug() << query.lastError().text();
+        return false;
+    }
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
 
+bool MainWindow::deletePeople(const QString id)
+{
+    // 删除图书语句
+    QSqlQuery query;
+    QString sql= tr("delete from information where id = '%1'").arg(id,10,QLatin1Char('0'));
+    qDebug() << sql;
+    if(query.exec(sql))
+    {
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("Delete Success"),QMessageBox::Yes);
+    }
+    else
+    {
+        // 执行失败
+        QString e = query.lastError().text();
+        if(e.contains("denied"))
+        {
+            // 没有删除的权限
+            QMessageBox::information(this,tr("Info"),tr("You don't have permission for deletion"),QMessageBox::Yes);
+        }
+        else
+        {
+            // 发生了错误
+            QMessageBox::information(this,tr("Info"),tr("Error occured"),QMessageBox::Yes);
+        }
+        qDebug() << e;
+        return false;
+    }
 
-// 此为参考用删除函数
-//bool MainWindow::deleteBook(const QString id){
-//  // 删除图书语句
-//  QSqlQuery query;
-//  QString sql("DELETE from tb_book where id = "+id);
-//  qDebug() << sql;
-//  if(query.exec(sql)){
-//      // 执行成功
-//      QMessageBox::information(this,tr("Info"),tr("Delete Success"),QMessageBox::Yes);
-//    }else{
-//      // 执行失败
-//      QString e = query.lastError().text();
-//      if(e.contains("denied")){
-//          // 没有删除的权限
-//          QMessageBox::information(this,tr("Info"),tr("You don't have permission for deletion"),QMessageBox::Yes);
-//        }else{
-//          // 发生了错误
-//          QMessageBox::information(this,tr("Info"),tr("Error occured"),QMessageBox::Yes);
-//        }
+    // 刷新 tableView
+    model->select();
+    return true;
+}
 
-//      qDebug() << e;
-//    }
-
-//  // 刷新 tableView
-//  initTableView();
-//  return true;
-//}
-
-bool MainWindow::changePeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job) {
-    // 这里写插入sql语句
-    //QSqlQuery query;
-    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
-    //qDebug() << sql;
-
-    //"1"填执行成功条件
-    if(0){
+bool MainWindow::changePeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job)
+{
+    QSqlQuery query;
+//    QString sql = tr("update information set name = '%1', sex = '%2', phone_number = '%3', department = '%4', job = '%5' where id = '%6'")
+//                    .arg(name).arg(sex).arg(phonenum).arg(department).arg(job)
+//                    .arg(id,10,QLatin1Char('0'));
+    QString sql("update information");
+    if(!name.isEmpty()) sql += tr(" set name = '%1'").arg(name);
+    if(!sex.isEmpty()) sql += tr(", sex = '%1'").arg(sex);
+    if(!phonenum.isEmpty()) sql += tr(", phone_number = '%1'").arg(phonenum);
+    if(!department.isEmpty()) sql += tr(", department = '%1'").arg(department);
+    if(!job.isEmpty()) sql += tr(", job = '%1'").arg(job);
+    sql += tr(" where id = '%1'").arg(id,10,QLatin1Char('0'));
+    if(query.exec(sql))
+    {
         // 执行成功
         QMessageBox::information(this,tr("Info"),tr("Change Success"),QMessageBox::Yes);
-      }else{
+    }
+    else
+    {
         // 执行失败
         QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
-        // qDebug() << query.lastError().text();
-      }
+        qDebug() << query.lastError().text();
+        return false;
+    }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
-bool MainWindow::setWorkDays(const QString id, const QString days) {
+bool MainWindow::setWorkDays(const QString id, const QString days)
+{
     // 这里写插入sql语句
     //QSqlQuery query;
     //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
     //qDebug() << sql;
+    QSqlQuery query;
+    QString sql = tr("update salary set attendance = %1 where id = '%2'")
+                    .arg(days)
+                    .arg(id,10,QLatin1Char('0'));
 
-    //"1"填执行成功条件
-    if(0){
+    if(query.exec(sql))
+    {
         // 执行成功
         QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
-      }else{
+    }
+    else
+    {
         // 执行失败
         QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
-        // qDebug() << query.lastError().text();
-      }
+        qDebug() << query.lastError().text();
+        return false;
+    }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
-bool MainWindow::setAdditionalDays(const QString id, const QString days) {
-    // 这里写插入sql语句
-    //QSqlQuery query;
-    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
-    //qDebug() << sql;
-
-    //"1"填执行成功条件
-    if(0){
+bool MainWindow::setAdditionalDays(const QString id, const QString days)
+{
+    QSqlQuery query;
+    QString sql = tr("update salary set extra_work = %1 where id = '%2'")
+                    .arg(days)
+                    .arg(id,10,QLatin1Char('0'));
+    qDebug() << sql;
+    if(query.exec(sql))
+    {
         // 执行成功
         QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
-      }else{
+    }
+    else
+    {
         // 执行失败
         QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
-        // qDebug() << query.lastError().text();
-      }
+        qDebug() << query.lastError().text();
+        return false;
+    }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
+
+void MainWindow::on_action_6_triggered()
+{
+    QSqlQuery query;
+    QString sql = "select sum(salary) from information";
+    if(!query.exec(sql))
+    {
+        qDebug() << query.lastError().text();
+        return;
+    }
+    else
+    {
+        query.next();
+        qDebug() << query.value(0).toString();
+        QMessageBox::information(this,tr("Info"),"total salary: " + query.value(0).toString(),QMessageBox::Yes);
+    }
+}
 bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job) {
     // 这里写插入sql语句
     //QSqlQuery query;
@@ -296,14 +363,6 @@ bool MainWindow::search(const QString name, const QString id, const QString phon
       }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
-
-
-
-
-
-
-
-
