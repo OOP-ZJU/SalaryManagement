@@ -196,7 +196,7 @@ bool MainWindow::insertPeople(const QString name, const QString id, const QStrin
         return false;
     }
 
-    sql = tr("insert into salary values('%1','%2',%3,0,0)")
+    sql = tr("insert into salary values('%1','%2',%3,10,0,0)")
             .arg(id,10,QLatin1Char('0'))
             .arg(name).arg(salary);
     if(!query.exec(sql))
