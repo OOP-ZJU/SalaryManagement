@@ -9,6 +9,10 @@
 #include "modifypeople.h"
 #include "workdays.h"
 #include "additionaldays.h"
+#include "additionaldays_show.h"
+#include "salaryofdepartment.h"
+#include "salaryofcompany.h"
+#include "workdays_show.h"
 
 
 namespace Ui
@@ -32,6 +36,8 @@ public slots:
 private slots:
     void on_action_triggered();
 
+    void on_action_5_triggered();
+
     void on_action_7_triggered();
 
     void on_action_8_triggered();
@@ -42,6 +48,12 @@ private slots:
 
     void on_action_12_triggered();
 
+    void on_action_6_triggered();
+
+    void on_action_3_triggered();
+
+    void on_action_2_triggered();
+
 private:
     QLabel *tipLbl;  //"欢迎登录"标签
     Ui::MainWindow *ui;
@@ -50,7 +62,12 @@ private:
     addPeople *dlgAddPeople;
     modifyPeople *dlgModifyPeople;
     workDays *dlgWorkDays;
+    workdays_show *dlgworkdays_show;
     additionalDays *dlgAdditionalDays;
+    Additionaldays_show *dlgAdditionaldays_show;
+    Salaryofdepartment *dlgSalaryofdepartment;
+    Salaryofcompany *dlgSlaryofcompany;
+
 
     bool connectDatabase();
     void initTableView();

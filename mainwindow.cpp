@@ -87,6 +87,29 @@ void MainWindow::on_action_triggered()
     dlgKinds->exec();
 }
 
+void MainWindow::on_action_2_triggered()
+{
+    dlgworkdays_show = new workdays_show(this);
+    dlgworkdays_show->exec();
+}
+
+void MainWindow::on_action_3_triggered()
+{
+    dlgAdditionaldays_show = new Additionaldays_show(this);
+    dlgAdditionaldays_show->exec();
+}
+
+void MainWindow::on_action_5_triggered()
+{
+    dlgSalaryofdepartment = new Salaryofdepartment(this);
+    dlgSalaryofdepartment->exec();
+}
+
+void MainWindow::on_action_6_triggered()
+{
+    dlgSlaryofcompany =new Salaryofcompany(this);
+    dlgSlaryofcompany->exec();
+}
 
 void MainWindow::on_action_7_triggered()
 {
@@ -131,6 +154,7 @@ void MainWindow::on_action_12_triggered()
     connect(dlgAdditionalDays,&additionalDays::setadditionaldays,this,&MainWindow::setAdditionalDays);
     dlgAdditionalDays->exec();
 }
+
 
 bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary) {
 
@@ -202,7 +226,7 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
 
     // 刷新 tableView
     initTableView();
-    return true；
+    return true;
 }
 
 bool MainWindow::setWorkDays(const QString id, const QString days) {
@@ -246,4 +270,11 @@ bool MainWindow::setAdditionalDays(const QString id, const QString days) {
     initTableView();
     return true;
 }
+
+
+
+
+
+
+
 

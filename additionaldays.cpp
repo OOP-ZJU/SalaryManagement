@@ -6,6 +6,7 @@ additionalDays::additionalDays(QWidget *parent) :
     ui(new Ui::additionalDays)
 {
     ui->setupUi(this);
+    this->setWindowTitle(tr("设置员工加班天数"));
 }
 
 additionalDays::~additionalDays()
