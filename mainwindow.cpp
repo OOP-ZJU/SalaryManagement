@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),model(NULL),
     ui(new Ui::MainWindow)
 {
-    model = NULL;
     ui->setupUi(this);
     if(DBS.connectDB())
     {
@@ -206,7 +205,7 @@ bool MainWindow::insertPeople(const QString name, const QString id, const QStrin
         return false;
     }
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
@@ -241,7 +240,7 @@ bool MainWindow::deletePeople(const QString id)
     }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
@@ -272,7 +271,7 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
     }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
@@ -301,7 +300,7 @@ bool MainWindow::setWorkDays(const QString id, const QString days)
     }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
@@ -326,7 +325,7 @@ bool MainWindow::setAdditionalDays(const QString id, const QString days)
     }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
 
@@ -364,6 +363,6 @@ bool MainWindow::search(const QString name, const QString id, const QString phon
       }
 
     // 刷新 tableView
-    initTableView();
+    model->select();
     return true;
 }
