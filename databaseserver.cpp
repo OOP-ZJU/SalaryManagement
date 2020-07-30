@@ -48,6 +48,7 @@ void DatabaseServer::createDB()
                   "(id char(10) primary key,"
                    "name varchar(25),"
                    "salary decimal(7,2),"
+                   "salary_taxed decimal(7,2),"
                    "extra_work int,"
                    "attendance int,"
                    "foreign key (id) references information (id),"
@@ -90,10 +91,10 @@ void DatabaseServer::initDB()
             qDebug() << "the record already exists";
         }
     }
-    sql[0] = "insert into salary values('0000000001','Ylc',11.22,0,0)";
-    sql[1] = "insert into salary values('0000000002','Sxj',33.22,0,0)";
-    sql[2] = "insert into salary values('0000000003','Shy',44.33,0,0)";
-    sql[3] = "insert into salary values('0000000004','Wyj',55.66,0,0)";
+    sql[0] = "insert into salary values('0000000001','Ylc',11.22,10,0,0)";
+    sql[1] = "insert into salary values('0000000002','Sxj',33.22,10,0,0)";
+    sql[2] = "insert into salary values('0000000003','Shy',44.33,10,0,0)";
+    sql[3] = "insert into salary values('0000000004','Wyj',55.66,10,0,0)";
     for(int i = 0; i < 4; ++i)
     {
         judge = QString("select * from salary where id = '%1'").arg(i+1,10,10,QLatin1Char('0'));
@@ -113,5 +114,59 @@ void DatabaseServer::initDB()
         {
             qDebug() << "the record already exists";
         }
+    }
+}
+
+QString DatabaseServer::getExtraWork(const QString id)
+{
+    QSqlQuery query;
+    QString sql = QObject::tr("select extra_work from salary where id = '%1'").arg(id,10,QLatin1Char('0'));
+    if(!query.exec(sql))
+    {
+        qDebug() << query.lastError();
+        return "error";
+    }
+    if(!query.next())
+        return "error";
+    return query.value(0).toString();
+}
+
+QString DatabaseServer::getAttendance(const QString id)
+{
+    QSqlQuery query;
+    QString sql = QObject::tr("select attendance from salary where id = '%1'").arg(id,10,QLatin1Char('0'));
+    if(!query.exec(sql))
+    {
+        qDebug() << query.lastError();
+        return "error";
+    }
+    if(!query.next())
+        return "error";
+    return query.value(0).toString();
+}
+
+void DatabaseServer::setExtraWork(const QString id, const QString days)
+{
+    QSqlQuery query;
+    QString sql = QObject::tr("update salary set extra_work = %1 where id = '%2'")
+                    .arg(days)
+                    .arg(id,10,QLatin1Char('0'));
+    if(!query.exec(sql))
+    {
+        qDebug() << query.lastError();
+        return;
+    }
+}
+
+void DatabaseServer::setAttendance(const QString id, const QString days)
+{
+    QSqlQuery query;
+    QString sql = QObject::tr("update salary set attendance = %1 where id = '%2'")
+                    .arg(days)
+                    .arg(id,10,QLatin1Char('0'));
+    if(!query.exec(sql))
+    {
+        qDebug() << query.lastError();
+        return;
     }
 }
