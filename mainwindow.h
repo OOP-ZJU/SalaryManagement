@@ -60,8 +60,9 @@ private slots:
     void on_action_4_triggered();
 
 private:
-    QLabel *tipLbl;  //"欢迎登录"标签
+    QSqlTableModel *model;
     Ui::MainWindow *ui;
+    QLabel *tipLbl;  //"欢迎登录"标签
     kinds *dlgKinds;
     DatabaseServer DBS;
     addPeople *dlgAddPeople;
@@ -77,7 +78,6 @@ private:
     bool connectDatabase();
     void initTableView();
     void on_table_clicked(const QModelIndex &index);
-    QSqlTableModel *model;
 
 };
 

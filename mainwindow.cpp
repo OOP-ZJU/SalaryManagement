@@ -12,6 +12,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),model(NULL),
     ui(new Ui::MainWindow)
+
 {
     ui->setupUi(this);
     if(DBS.connectDB())
@@ -87,11 +88,9 @@ void MainWindow::initTableView() {
     header->setStretchLastSection(true);
    connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
-void MainWindow::on_table_clicked(const QModelIndex &index)
-{
+void MainWindow::on_table_clicked(const QModelIndex &index){
     int row=index.row();
 
-    //auto record=model->record(row);
     auto record=model->record(row);
     salarydetail *detailwindow=new salarydetail(record,NULL);
 
@@ -348,23 +347,53 @@ void MainWindow::on_action_6_triggered()
         QMessageBox::information(this,tr("Info"),"total salary: " + query.value(0).toString(),QMessageBox::Yes);
     }
 }
-bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job) {
-    // 这里写插入sql语句
-    //QSqlQuery query;
-    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
-    //qDebug() << sql;
-
-    //"1"填执行成功条件
-    if(1){
-        // 执行成功
-        QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
-      }else{
-        // 执行失败
-        QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
-        // qDebug() << query.lastError().text();
-      }
+bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job)
+{
+    QString filter; //查询条件
+    bool isConditionExist = false;
+    if(!id.isEmpty())
+    {
+        filter += tr("id = '%1'").arg(id,10,QLatin1Char('0'));
+        isConditionExist = true;
+    }
+    if(!name.isEmpty())
+    {
+        filter += (isConditionExist ? " and " : "") + tr("name = '%1'").arg(name);
+        isConditionExist = true;
+    }
+    if(!phonenum.isEmpty())
+    {
+        filter += (isConditionExist ? " and " : "") + tr("phone_number = '%1'").arg(phonenum);
+        isConditionExist = true;
+    }
+    if(!department.isEmpty())
+    {
+        filter += (isConditionExist ? " and " : "") + tr("department = '%1'").arg(department);
+        isConditionExist = true;
+    }
+    if(!job.isEmpty())
+    {
+        filter += (isConditionExist ? " and " : "") + tr("job = '%1'").arg(job);
+        isConditionExist = true;
+    }
+    if(!isConditionExist)
+        model->setFilter(NULL);
+    else
+        model->setFilter(filter);
+    qDebug() << model->filter();
 
     // 刷新 tableView
-    model->select();
+    if(model->select())
+    {
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("select Success"),QMessageBox::Yes);
+    }
+    else
+    {
+        // 执行失败
+        QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
+        qDebug() << model->lastError().text();
+        return false;
+    }
     return true;
 }
