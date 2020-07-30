@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "salarydetail.h"
-
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QMessageBox>
@@ -55,7 +54,6 @@ bool MainWindow::connectDatabase()
 void MainWindow::initTableView() {
     // 数据模型
     model = new QSqlTableModel;
-
     model->setTable("information");
     // 按编号排序
     model->setSort(0, Qt::AscendingOrder);
@@ -81,12 +79,6 @@ void MainWindow::initTableView() {
     // 表头
     QHeaderView *header = view->horizontalHeader();
     header->setStretchLastSection(true);
-
-    // connect(view->selectionModel(),
-    //         &QItemSelectionModel::currentRowChanged,
-    //         this,
-    //         &MainWindow::setTitle
-    //         );
    connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
 void MainWindow::on_table_clicked(const QModelIndex &index){
@@ -104,6 +96,37 @@ void MainWindow::on_action_triggered()
     dlgKinds->exec();
 }
 
+void MainWindow::on_action_2_triggered()
+{
+    dlgworkdays_show = new workdays_show(this);
+    dlgworkdays_show->exec();
+}
+
+void MainWindow::on_action_3_triggered()
+{
+    dlgAdditionaldays_show = new Additionaldays_show(this);
+    dlgAdditionaldays_show->exec();
+}
+
+void MainWindow::on_action_4_triggered()
+{
+    dlgSearchPeople = new searchPeople(this);
+    connect(dlgSearchPeople,&searchPeople::searchpeople,this,&MainWindow::search);
+    dlgSearchPeople->exec();
+}
+
+
+void MainWindow::on_action_5_triggered()
+{
+    dlgSalaryofdepartment = new Salaryofdepartment(this);
+    dlgSalaryofdepartment->exec();
+}
+
+void MainWindow::on_action_6_triggered()
+{
+    dlgSlaryofcompany =new Salaryofcompany(this);
+    dlgSlaryofcompany->exec();
+}
 
 void MainWindow::on_action_7_triggered()
 {
@@ -148,6 +171,7 @@ void MainWindow::on_action_12_triggered()
     connect(dlgAdditionalDays,&additionalDays::setadditionaldays,this,&MainWindow::setAdditionalDays);
     dlgAdditionalDays->exec();
 }
+
 
 bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary) {
 
@@ -264,3 +288,23 @@ bool MainWindow::setAdditionalDays(const QString id, const QString days) {
     return true;
 }
 
+bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job) {
+    // 这里写插入sql语句
+    //QSqlQuery query;
+    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
+    //qDebug() << sql;
+
+    //"1"填执行成功条件
+    if(1){
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
+      }else{
+        // 执行失败
+        QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
+        // qDebug() << query.lastError().text();
+      }
+
+    // 刷新 tableView
+    initTableView();
+    return true;
+}
