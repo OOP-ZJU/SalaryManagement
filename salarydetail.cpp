@@ -27,6 +27,8 @@ salarydetail::salarydetail(QSqlRecord& record,MainWindow *parent) :
     detail->setColumnCount(2);
     detail->verticalHeader()->setVisible(false);
     detail->horizontalHeader()->setVisible(false);
+    detail->horizontalHeader()->setStretchLastSection(true);
+    detail->verticalHeader()->setStretchLastSection(true);
     detail->move(70,30);
     if(emp1){
 
