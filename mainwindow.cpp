@@ -99,6 +99,14 @@ void MainWindow::on_action_3_triggered()
     dlgAdditionaldays_show->exec();
 }
 
+void MainWindow::on_action_4_triggered()
+{
+    dlgSearchPeople = new searchPeople(this);
+    connect(dlgSearchPeople,&searchPeople::searchpeople,this,&MainWindow::search);
+    dlgSearchPeople->exec();
+}
+
+
 void MainWindow::on_action_5_triggered()
 {
     dlgSalaryofdepartment = new Salaryofdepartment(this);
@@ -258,6 +266,27 @@ bool MainWindow::setAdditionalDays(const QString id, const QString days) {
 
     //"1"填执行成功条件
     if(0){
+        // 执行成功
+        QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
+      }else{
+        // 执行失败
+        QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
+        // qDebug() << query.lastError().text();
+      }
+
+    // 刷新 tableView
+    initTableView();
+    return true;
+}
+
+bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job) {
+    // 这里写插入sql语句
+    //QSqlQuery query;
+    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
+    //qDebug() << sql;
+
+    //"1"填执行成功条件
+    if(1){
         // 执行成功
         QMessageBox::information(this,tr("Info"),tr("Set Success"),QMessageBox::Yes);
       }else{
