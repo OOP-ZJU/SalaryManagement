@@ -1,5 +1,6 @@
 #include "model.h"
 using namespace std;
+
 inline float after_tax(float salary)
 {
     float tax;
@@ -17,6 +18,7 @@ inline float after_tax(float salary)
         tax=(salary-144000)*0.35f+85920;
     else tax=(salary-960000)*0.45f+181920;
     return salary-tax;
+
 }
 float worker::get_net_salary_total(){
     return after_tax(wage+overtime+bonus);
@@ -26,6 +28,7 @@ float management::get_net_salary_total(){
 }
 float tech::get_net_salary_total(){
     return after_tax(wage+bonus+skill+project_budget);
+    
 }
 float sales::get_net_salary_total(){
     return  after_tax(wage+bonus+sales_compensation);
@@ -46,51 +49,58 @@ employee::employee(QSqlRecord &record)
 
 }
 void management::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","motivation","total"};
+    QString tmp[]={"wage","bonus","motivation","tax","total"};
     float w[]={wage,bonus,motivation,get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
         if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j],'f',2)));
     }
 }
 void tech::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","skill","project_budget","total"};
+    QString tmp[]={"wage","bonus","skill","project_budget","tax","total"};
     float w[]={wage,bonus,skill,project_budget,get_net_salary_total()};
     for(int j=0;j<5;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
         if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j],'f',2)));
     }
 
 }
 void sales::print_salary_detail(QTableWidget &display){    
-    QString tmp[]={"wage","bonus","sales_compensation","total"};
+    QString tmp[]={"wage","bonus","sales_compensation","tax","total"};
     float w[]={wage,bonus,sales_compensation,get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
         if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j],'f',2)));
     }
 }
 void worker::print_salary_detail(QTableWidget &display){  
-    QString tmp[]={"wage","overtime","bonus","total"};
-    float w[]={wage,overtime,bonus,get_net_salary_total()};
+    QString tmp[]={"wage","bonus","overtime","tax","total"};
+    float w[]={wage,bonus,overtime,get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
         if(auto p=display.item(j,1))p->setData(0,w[j]);
-            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j])));
+            else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j],'f',2)));
     }
 }
-
-management::management(QSqlRecord &record):employee(record),bonus(0),motivation(0){}
-tech::tech(QSqlRecord &record):employee(record),skill(0),bonus(0),project_budget(0){}
-sales::sales(QSqlRecord &record):employee(record),sales_compensation(0),bonus(0){}
-worker::worker(QSqlRecord &record):employee(record),bonus(0),overtime(0){}
+inline float count_overtime(int additional,float wage_base){  //考勤天数；加班天数
+    return wage_base*(additional*1.5f)/21.75f;
+    // 1.5倍补偿
+}
+inline float count_bonus(int work_days,float wage_base){
+    return wage_base*(work_days-21.75f)/21.75f;
+    // 每月工作天数以21.75天计，超出的部分为绩效工资（可能为负）
+}
+management::management(QSqlRecord &record):employee(record),motivation(5000.0f){}
+tech::tech(QSqlRecord &record):employee(record),skill(5000.0f),project_budget(5000.0f){}
+sales::sales(QSqlRecord &record):employee(record),sales_compensation(5000.0f){}
+worker::worker(QSqlRecord &record):employee(record),overtime(0){}
 #ifdef _DEBUG_0
 int main(void){
     worker z3();

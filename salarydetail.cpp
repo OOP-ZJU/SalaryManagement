@@ -5,7 +5,12 @@
 salarydetail::salarydetail(QSqlRecord& record,QDialog *parent) :
     QDialog(parent)
 {
-    worker emp1(record);
+    employee* emp1=NULL;
+    auto job=record.value("job").toString();
+    if(job=="Manager")emp1=new management(record);
+    else if(job=="Worker")emp1=new worker(record);
+    else if(job=="Tech")emp1=new tech(record);
+    else if(job=="Sales")emp1=new sales(record);
     //设置窗体标题
     this->setWindowTitle(tr("工资明细"));
     this->resize(QSize(360,500));
@@ -48,7 +53,7 @@ salarydetail::salarydetail(QSqlRecord& record,QDialog *parent) :
     exitBtn->setText("退出");
 
     detail=new QTableWidget(this);
-    detail->setRowCount(4);
+    detail->setRowCount(7);
     detail->setColumnCount(2);
     detail->verticalHeader()->setVisible(false);
     detail->horizontalHeader()->setVisible(false);
@@ -58,7 +63,7 @@ salarydetail::salarydetail(QSqlRecord& record,QDialog *parent) :
     connect(loginBtn,&QPushButton::clicked,this,&salarydetail::login);
     connect(exitBtn,&QPushButton::clicked,this,&salarydetail::close);
 
-    emp1.print_salary_detail(*detail);
+    if(emp1)emp1->print_salary_detail(*detail);
 
 }
 
