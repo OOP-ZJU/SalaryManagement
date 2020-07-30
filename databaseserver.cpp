@@ -145,24 +145,11 @@ QString DatabaseServer::getAttendance(const QString id)
     return query.value(0).toString();
 }
 
-void DatabaseServer::setExtraWork(const QString id, const QString days)
+void DatabaseServer::setSalaryTaxed(const QString id, const QString salaryTaxed)
 {
     QSqlQuery query;
-    QString sql = QObject::tr("update salary set extra_work = %1 where id = '%2'")
-                    .arg(days)
-                    .arg(id,10,QLatin1Char('0'));
-    if(!query.exec(sql))
-    {
-        qDebug() << query.lastError();
-        return;
-    }
-}
-
-void DatabaseServer::setAttendance(const QString id, const QString days)
-{
-    QSqlQuery query;
-    QString sql = QObject::tr("update salary set attendance = %1 where id = '%2'")
-                    .arg(days)
+    QString sql = QObject::tr("update salary set salary_taxed = %1 where id = '%2'")
+                    .arg(salaryTaxed)
                     .arg(id,10,QLatin1Char('0'));
     if(!query.exec(sql))
     {
