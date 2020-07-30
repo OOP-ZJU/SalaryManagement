@@ -2,6 +2,9 @@
 #define ADDITIONALDAYS_SHOW_H
 
 #include <QDialog>
+#include "QtSql"
+#include "QSqlTableModel"
+#include "QTableView"
 
 namespace Ui {
 class Additionaldays_show;
@@ -16,6 +19,8 @@ public:
     ~Additionaldays_show();
 
 private:
+    void initTableView();
+    QSqlTableModel *model;
     Ui::Additionaldays_show *ui;
 };
 

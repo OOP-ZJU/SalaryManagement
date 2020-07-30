@@ -86,7 +86,7 @@ void MainWindow::initTableView() {
     // 表头
     QHeaderView *header = view->horizontalHeader();
     header->setStretchLastSection(true);
-   connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
+    connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
 void MainWindow::on_table_clicked(const QModelIndex &index){
     int row=index.row();
@@ -252,12 +252,34 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
 //                    .arg(name).arg(sex).arg(phonenum).arg(department).arg(job)
 //                    .arg(id,10,QLatin1Char('0'));
     QString sql("update information");
-    if(!name.isEmpty()) sql += tr(" set name = '%1'").arg(name);
-    if(!sex.isEmpty()) sql += tr(", sex = '%1'").arg(sex);
-    if(!phonenum.isEmpty()) sql += tr(", phone_number = '%1'").arg(phonenum);
-    if(!department.isEmpty()) sql += tr(", department = '%1'").arg(department);
-    if(!job.isEmpty()) sql += tr(", job = '%1'").arg(job);
+    bool isSet = false;
+    if(!name.isEmpty())
+    {
+        sql += tr(" set name = '%1'").arg(name);
+        isSet = true;
+    }
+    if(!sex.isEmpty())
+    {
+        sql += (isSet ? "," : " set") + tr(" sex = '%1'").arg(sex);
+        isSet = true;
+    }
+    if(!phonenum.isEmpty())
+    {
+        sql += (isSet ? "," : " set") + tr(" phone_number = '%1'").arg(phonenum);
+        isSet = true;
+    }
+    if(!department.isEmpty())
+    {
+        sql += (isSet ? "," : " set") + tr(" department = '%1'").arg(department);
+        isSet = true;
+    }
+    if(!job.isEmpty())
+    {
+        sql += (isSet ? "," : " set") + tr(" job = '%1'").arg(job);
+        isSet = true;
+    }
     sql += tr(" where id = '%1'").arg(id,10,QLatin1Char('0'));
+    qDebug() << sql;
     if(query.exec(sql))
     {
         // 执行成功
@@ -276,7 +298,7 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
     return true;
 }
 
-bool MainWindow::setWorkDays(const QString id, const QString days)
+bool MainWindow::setAdditionalDays(const QString days, const QString id)
 {
     // 这里写插入sql语句
     //QSqlQuery query;
@@ -286,7 +308,7 @@ bool MainWindow::setWorkDays(const QString id, const QString days)
     QString sql = tr("update salary set attendance = %1 where id = '%2'")
                     .arg(days)
                     .arg(id,10,QLatin1Char('0'));
-
+    qDebug() << sql;
     if(query.exec(sql))
     {
         // 执行成功

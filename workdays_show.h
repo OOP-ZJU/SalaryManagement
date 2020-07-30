@@ -2,6 +2,9 @@
 #define WORKDAYS_SHOW_H
 
 #include <QDialog>
+#include "QtSql"
+#include "QSqlTableModel"
+#include "QTableView"
 
 namespace Ui {
 class workdays_show;
@@ -16,6 +19,8 @@ public:
     ~workdays_show();
 
 private:
+    void initTableView();
+    QSqlTableModel *model;
     Ui::workdays_show *ui;
 };
 
