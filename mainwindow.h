@@ -74,7 +74,7 @@ private:
     Salaryofdepartment *dlgSalaryofdepartment;
     Salaryofcompany *dlgSlaryofcompany;
     searchPeople *dlgSearchPeople;
-
+    friend class salarydetail;
     bool connectDatabase();
     void initTableView();
     void on_table_clicked(const QModelIndex &index);

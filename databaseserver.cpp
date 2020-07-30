@@ -117,32 +117,32 @@ void DatabaseServer::initDB()
     }
 }
 
-QString DatabaseServer::getExtraWork(const QString id)
+int DatabaseServer::getExtraWork(const QString id)
 {
     QSqlQuery query;
     QString sql = QObject::tr("select extra_work from salary where id = '%1'").arg(id,10,QLatin1Char('0'));
     if(!query.exec(sql))
     {
         qDebug() << query.lastError();
-        return "error";
+        return -1;
     }
     if(!query.next())
-        return "error";
-    return query.value(0).toString();
+        return -1;
+    return query.value(0).toInt();
 }
 
-QString DatabaseServer::getAttendance(const QString id)
+int DatabaseServer::getAttendance(const QString id)
 {
     QSqlQuery query;
     QString sql = QObject::tr("select attendance from salary where id = '%1'").arg(id,10,QLatin1Char('0'));
     if(!query.exec(sql))
     {
         qDebug() << query.lastError();
-        return "error";
+        return -1;
     }
     if(!query.next())
-        return "error";
-    return query.value(0).toString();
+        return -1;
+    return query.value(0).toInt();
 }
 
 void DatabaseServer::setSalaryTaxed(const QString id, const QString salaryTaxed)

@@ -49,8 +49,8 @@ employee::employee(QSqlRecord &record)
 
 }
 void management::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","motivation","tax","total"};
-    float w[]={wage,bonus,motivation,get_net_salary_total()};
+    QString tmp[]={"wage","bonus","motivation","total"};
+    float w[]={wage,bonus,motivation,taxed=get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
@@ -59,8 +59,8 @@ void management::print_salary_detail(QTableWidget &display){
     }
 }
 void tech::print_salary_detail(QTableWidget &display){
-    QString tmp[]={"wage","bonus","skill","project_budget","tax","total"};
-    float w[]={wage,bonus,skill,project_budget,get_net_salary_total()};
+    QString tmp[]={"wage","bonus","skill","project_budget","total"};
+    float w[]={wage,bonus,skill,project_budget,taxed=get_net_salary_total()};
     for(int j=0;j<5;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
@@ -70,8 +70,8 @@ void tech::print_salary_detail(QTableWidget &display){
 
 }
 void sales::print_salary_detail(QTableWidget &display){    
-    QString tmp[]={"wage","bonus","sales_compensation","tax","total"};
-    float w[]={wage,bonus,sales_compensation,get_net_salary_total()};
+    QString tmp[]={"wage","bonus","sales_compensation","total"};
+    float w[]={wage,bonus,sales_compensation,taxed=get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
@@ -80,8 +80,8 @@ void sales::print_salary_detail(QTableWidget &display){
     }
 }
 void worker::print_salary_detail(QTableWidget &display){  
-    QString tmp[]={"wage","bonus","overtime","tax","total"};
-    float w[]={wage,bonus,overtime,get_net_salary_total()};
+    QString tmp[]={"wage","bonus","overtime","total"};
+    float w[]={wage,bonus,overtime,taxed=get_net_salary_total()};
     for(int j=0;j<4;j++){
         if(auto p=display.item(j,0))p->setData(0,tmp[j]);
             else display.setItem(j,0,new QTableWidgetItem(tmp[j]));
@@ -89,14 +89,7 @@ void worker::print_salary_detail(QTableWidget &display){
             else display.setItem(j,1,new QTableWidgetItem(QString::number(w[j],'f',2)));
     }
 }
-inline float count_overtime(int additional,float wage_base){  //考勤天数；加班天数
-    return wage_base*(additional*1.5f)/21.75f;
-    // 1.5倍补偿
-}
-inline float count_bonus(int work_days,float wage_base){
-    return wage_base*(work_days-21.75f)/21.75f;
-    // 每月工作天数以21.75天计，超出的部分为绩效工资（可能为负）
-}
+
 management::management(QSqlRecord &record):employee(record),motivation(5000.0f){}
 tech::tech(QSqlRecord &record):employee(record),skill(5000.0f),project_budget(5000.0f){}
 sales::sales(QSqlRecord &record):employee(record),sales_compensation(5000.0f){}
