@@ -8,8 +8,8 @@ DatabaseServer::DatabaseServer()
 bool DatabaseServer::connectDB()
 {
     database = QSqlDatabase::addDatabase("QSQLITE");
-    database.setDatabaseName("SalaryManagement.db");    //如果本目录下没有该文件,则会在本目录下生成,否则连接该文件,/scooters.dat
-    if (!database.open())
+    database.setDatabaseName("SalaryManagement.db");    //如果本目录下没有该文件,则会在本目录下生成,否则连接该文件
+    if (!database.open())   // 判断数据库连接是否成功
     {
         QMessageBox::warning(0, QObject::tr("Database Error"),
                              database.lastError().text());
@@ -151,7 +151,7 @@ void DatabaseServer::setSalaryTaxed(const QString id, const QString salaryTaxed)
     QString sql = QObject::tr("update salary set salary_taxed = %1 where id = '%2'")
                     .arg(salaryTaxed)
                     .arg(id,10,QLatin1Char('0'));
-    if(!query.exec(sql))
+    if(!query.exec(sql))    // 更新数据库中salary表
     {
         qDebug() << query.lastError();
         return;
@@ -159,9 +159,9 @@ void DatabaseServer::setSalaryTaxed(const QString id, const QString salaryTaxed)
     sql = QObject::tr("update information set salary = %1 where id = '%2'")
                        .arg(salaryTaxed)
                        .arg(id,10,QLatin1Char('0'));
-       if(!query.exec(sql))
-       {
-           qDebug() << query.lastError();
-           return;
-       }
+    if(!query.exec(sql))    // 更新数据库中information表
+    {
+       qDebug() << query.lastError();
+       return;
+    }
 }

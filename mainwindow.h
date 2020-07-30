@@ -64,7 +64,7 @@ private:
     Ui::MainWindow *ui;
     QLabel *tipLbl;  //"欢迎登录"标签
     kinds *dlgKinds;
-    DatabaseServer DBS;
+    DatabaseServer DBS; // 数据库服务助手，用于操作数据库
     addPeople *dlgAddPeople;
     modifyPeople *dlgModifyPeople;
     workDays *dlgWorkDays;
@@ -75,8 +75,7 @@ private:
     Salaryofcompany *dlgSlaryofcompany;
     searchPeople *dlgSearchPeople;
     friend class salarydetail;
-    bool connectDatabase();
-    void initTableView();
+    void initTableView(); // 把数据库的表格显示在TableView中
     void on_table_clicked(const QModelIndex &index);
 
 };

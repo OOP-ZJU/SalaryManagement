@@ -33,28 +33,10 @@ MainWindow::~MainWindow()
         delete model;
 }
 
-/**
- * 连接数据库
- * 我用的是sql server，其他的在基础上改一改就行
- * @brief connect
- * @return
- */
-
-bool MainWindow::connectDatabase()
-{
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(QApplication::applicationDirPath()+"/scooters.dat");    //如果本目录下没有该文件,则会在本目录下生成,否则连接该文件
-    if (!db.open()) {
-        QMessageBox::warning(0, QObject::tr("Database Error"),
-                             db.lastError().text());
-        return false;
-    }
-    return true;
-}
 
 /**
  * @brief MainWindow::initTableView
- * 从图书管理系统扒过来的，直接把数据库按列塞进去改名字就行
+ * 初始化TableVIew
  */
 
 void MainWindow::initTableView() {
@@ -64,6 +46,8 @@ void MainWindow::initTableView() {
     model->setTable("information");
     // 按编号排序
     model->setSort(0, Qt::AscendingOrder);
+
+    //设置每一列的标题
     model->setHeaderData(0,Qt::Horizontal,tr("id"));
     model->setHeaderData(1,Qt::Horizontal,tr("name"));
     model->setHeaderData(2,Qt::Horizontal,tr("sex"));
@@ -72,15 +56,16 @@ void MainWindow::initTableView() {
     model->setHeaderData(5,Qt::Horizontal,tr("job"));
     model->setHeaderData(6,Qt::Horizontal,tr("salary"));
     model->select();
+
     // 表格视图
     QTableView *view = ui->tableView;
     view->setModel(model);
-//    view->setColumnWidth(1,500);
+    // view->setColumnWidth(1,500);
 
     view->setSelectionMode(QAbstractItemView::SingleSelection);
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
-    //  view->setColumnHidden(0, true);
-    //  view->resizeColumnsToContents();
+    // view->setColumnHidden(0, true);
+    // view->resizeColumnsToContents();
     view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     view->show();
     // 表头
@@ -88,6 +73,7 @@ void MainWindow::initTableView() {
     header->setStretchLastSection(true);
     connect(view,&QTableView::doubleClicked,this,&MainWindow::on_table_clicked);
 }
+
 void MainWindow::on_table_clicked(const QModelIndex &index){
     int row=index.row();
 
@@ -95,8 +81,9 @@ void MainWindow::on_table_clicked(const QModelIndex &index){
     salarydetail *detailwindow=new salarydetail(record,this);
 
     detailwindow->show();
-    //this->setWindowTitle(QString::number(index.row()));
+    // this->setWindowTitle(QString::number(index.row()));
 }
+
 void MainWindow::on_action_triggered()
 {
     dlgKinds = new kinds(this);
@@ -127,6 +114,24 @@ void MainWindow::on_action_5_triggered()
 {
     dlgSalaryofdepartment = new Salaryofdepartment(this);
     dlgSalaryofdepartment->exec();
+}
+
+// 显示总工资
+void MainWindow::on_action_6_triggered()
+{
+    QSqlQuery query;
+    QString sql = "select sum(salary) from information";
+    if(!query.exec(sql))
+    {
+        qDebug() << query.lastError().text();
+        return;
+    }
+    else
+    {
+        query.next();
+        qDebug() << query.value(0).toString();
+        QMessageBox::information(this,tr("Info"),"total salary: " + query.value(0).toString(),QMessageBox::Yes);
+    }
 }
 
 void MainWindow::on_action_7_triggered()
@@ -174,9 +179,20 @@ void MainWindow::on_action_12_triggered()
     dlgAdditionalDays->exec();
 }
 
+/**
+ * @brief MainWindow::insertPeople
+ * @param name
+ * @param id
+ * @param sex
+ * @param phonenum
+ * @param department
+ * @param job
+ * @param salary
+ * @return 返回插入是否成功
+ */
 bool MainWindow::insertPeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job, const QString salary)
 {
-    if(!(job == "Worker" || job == "Manager" || job == "Sales" || job == "Tech"))
+    if(!(job == "Worker" || job == "Manager" || job == "Sales" || job == "Tech")) // 限制职位的类型
     {
         QMessageBox::information(this,tr("Info"),tr("Invalid job"),QMessageBox::Yes);
         return false;
@@ -215,7 +231,11 @@ bool MainWindow::insertPeople(const QString name, const QString id, const QStrin
     return true;
 }
 
-
+/**
+ * @brief MainWindow::deletePeople
+ * @param id: 根据id删除对应的字段
+ * @return 返回是否删除成功
+ */
 bool MainWindow::deletePeople(const QString id)
 {
     // 删除图书语句
@@ -250,15 +270,27 @@ bool MainWindow::deletePeople(const QString id)
     return true;
 }
 
+/**
+ * @brief MainWindow::changePeople
+ * @param name
+ * @param id
+ * @param sex
+ * @param phonenum
+ * @param department
+ * @param job
+ * @return 返回是否修改成功
+ */
 bool MainWindow::changePeople(const QString name, const QString id, const QString sex, const QString phonenum, const QString department, const QString job)
 {
-    if(!(job == "Worker" || job == "Manager" || job == "Sales" || job == "Tech"))
+    if(!(job == "Worker" || job == "Manager" || job == "Sales" || job == "Tech"))   // 限制职位的类型
     {
         QMessageBox::information(this,tr("Info"),tr("Invalid job"),QMessageBox::Yes);
         return false;
     }
     QSqlQuery query;
     QString sql("update information");
+
+    // 设置sql语句的条件查询，如果输入为空则代表没有相应的条件
     bool isSet = false;
     if(!name.isEmpty())
     {
@@ -305,12 +337,14 @@ bool MainWindow::changePeople(const QString name, const QString id, const QStrin
     return true;
 }
 
+/**
+ * @brief MainWindow::setWorkDays
+ * @param days 设置salary表中的attendance属性值
+ * @param id 根据id找到相应的字段进行修改
+ * @return 返回是否设置成功
+ */
 bool MainWindow::setWorkDays(const QString days, const QString id)
 {
-    // 这里写插入sql语句
-    //QSqlQuery query;
-    //QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
-    //qDebug() << sql;
     QSqlQuery query;
     QString sql = tr("update salary set attendance = %1 where id = '%2'")
                     .arg(days)
@@ -334,6 +368,12 @@ bool MainWindow::setWorkDays(const QString days, const QString id)
     return true;
 }
 
+/**
+ * @brief MainWindow::setAdditionalDays
+ * @param days 设置salary表中的extra_work属性值
+ * @param id 根据id找到相应的字段进行修改
+ * @return 返回是否设置成功
+ */
 bool MainWindow::setAdditionalDays(const QString days, const QString id)
 {
     QSqlQuery query;
@@ -360,22 +400,15 @@ bool MainWindow::setAdditionalDays(const QString days, const QString id)
 }
 
 
-void MainWindow::on_action_6_triggered()
-{
-    QSqlQuery query;
-    QString sql = "select sum(salary) from information";
-    if(!query.exec(sql))
-    {
-        qDebug() << query.lastError().text();
-        return;
-    }
-    else
-    {
-        query.next();
-        qDebug() << query.value(0).toString();
-        QMessageBox::information(this,tr("Info"),"total salary: " + query.value(0).toString(),QMessageBox::Yes);
-    }
-}
+/**
+ * @brief MainWindow::search 查询员工的信息
+ * @param name
+ * @param id
+ * @param phonenum
+ * @param department
+ * @param job
+ * @return 返回查询是否成功
+ */
 bool MainWindow::search(const QString name, const QString id, const QString phonenum, const QString department, const QString job)
 {
     QString filter; //查询条件
