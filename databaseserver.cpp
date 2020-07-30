@@ -48,7 +48,7 @@ void DatabaseServer::createDB()
                   "(id char(10) primary key,"
                    "name varchar(25),"
                    "salary decimal(7,2),"
-                   "allowance decimal(7,2),"
+                   "extra_work int,"
                    "attendance int,"
                    "foreign key (id) references information (id),"
                    "foreign key (name) references information (name)"
@@ -73,6 +73,30 @@ void DatabaseServer::initDB()
     for(int i = 0; i < 4; ++i)
     {
         judge = QString("select * from information where id = '%1'").arg(i+1,10,10,QLatin1Char('0'));
+        if(!query.exec(judge))
+        {
+            qDebug() << "judge error" <<query.lastError();
+            return;
+        }
+        if(!query.next())   //if not in the table, then insert it
+        {
+            if(!query.exec(sql[i]))
+            {
+                qDebug() << "insert failed: " << query.lastError();
+            }
+        }
+        else
+        {
+            qDebug() << "the record already exists";
+        }
+    }
+    sql[0] = "insert into salary values('0000000001','Ylc',11.22,0,0)";
+    sql[1] = "insert into salary values('0000000002','Sxj',33.22,0,0)";
+    sql[2] = "insert into salary values('0000000003','Shy',44.33,0,0)";
+    sql[3] = "insert into salary values('0000000004','Wyj',55.66,0,0)";
+    for(int i = 0; i < 4; ++i)
+    {
+        judge = QString("select * from salary where id = '%1'").arg(i+1,10,10,QLatin1Char('0'));
         if(!query.exec(judge))
         {
             qDebug() << "judge error" <<query.lastError();
